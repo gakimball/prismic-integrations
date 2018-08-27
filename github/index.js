@@ -31,8 +31,8 @@ module.exports = async (req, res) => {
       title: repo.full_name,
       description: repo.description,
       image_url: repo.owner.avatar_url,
-      last_update: Date.now(),
+      last_update: (new Date(repo.updated_at)).getTime(),
       blob: pickBy(repo, (value, key) => !key.match(/^(owner|.*_url)$/))
-    }))
+    })).sort((a, b) => b.last_update - a.last_update)
   };
 };
